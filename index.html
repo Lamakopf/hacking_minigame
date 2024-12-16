@@ -286,6 +286,7 @@
         <h2>Choose your skill modifier:</h2>
         <p>(This value will be added to every roll, from -3 to +3)</p>
         <select id="skill-select">
+            <option value="20">-Cheat</option>
             <option value="-3">-3</option>
             <option value="-2">-2</option>
             <option value="-1">-1</option>
@@ -627,18 +628,18 @@
             const lines = node.innerHTML.split('<br>');
             const nodeName = lines[0];
 
-if (roll >= difficulty) {
-    logMessage(`Node ${name} (Lvl ${lvl}) hacked successfully! Roll: ${baseRoll} ${sign} ${absVal} = ${roll}`);
-    newStart.classList.add('hacked');
-    playSuccess();
-    setTimeout(() => spawnNextNode(newStart), 500); // Adding a delay before spawning new nodes
-} else {
-    newStart.classList.add('fail');
-    logMessage(`Node ${name} (Lvl ${lvl}) hack failed. Roll: ${baseRoll} ${sign} ${absVal} = ${roll}`);
-    playFail();
-    difficultyOffset += 1;
-    logMessage(`All future difficulties are now +1 harder.`);
-}
+            if (roll >= difficulty) {
+                logMessage(`Node ${nodeName} (Lvl ${level}) hacked successfully! Roll: ${baseRoll} ${sign} ${absVal} = ${roll}`);
+                node.classList.add('hacked');
+                playSuccess();
+                spawnNextNode(node);
+            } else {
+                node.classList.add('fail');
+                logMessage(`Node ${nodeName} (Lvl ${level}) hack failed. Roll: ${baseRoll} ${sign} ${absVal} = ${roll}`);
+                playFail();
+                difficultyOffset += 1;
+                logMessage(`All future difficulties are now +1 harder.`);
+            }
         }
 
         function pickRandomLetter() {
@@ -776,16 +777,16 @@ if (roll >= difficulty) {
             let sign = skillValue >= 0 ? '+' : '-';
             let absVal = Math.abs(skillValue);
 
-if (roll >= difficulty) {
-    logMessage(`Node A1 hacked successfully! Roll: ${baseRoll} ${sign} ${absVal} = ${roll}`);
-    startNode.classList.add('hacked'); // Highlight the node first
-    playSuccess();
-    setTimeout(() => spawnNextNode(startNode), 500); // Adding a delay before spawning new nodes
-} else {
-    startNode.classList.add('fail');
-    logMessage(`Hack failed. Roll: ${baseRoll} ${sign} ${absVal} = ${roll}`);
-    playFail();
-}
+            if (roll >= difficulty) {
+                logMessage(`Node A1 hacked successfully! Roll: ${baseRoll} ${sign} ${absVal} = ${roll}`);
+                startNode.classList.add('hacked');
+                playSuccess();
+                spawnNextNode(startNode);
+            } else {
+                startNode.classList.add('fail');
+                logMessage(`Hack failed. Roll: ${baseRoll} ${sign} ${absVal} = ${roll}`);
+                playFail();
+            }
         });
 
         skillConfirmButton.addEventListener('click', () => {
